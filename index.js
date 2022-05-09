@@ -36,7 +36,7 @@ const run = async () => {
             const newFruit = req.body;
             const result = await fruit.insertOne(newFruit);
             res.send(result);
-            console.log(newFruit.fruitName,'added successfully');
+            console.log(newFruit.name,'added successfully');
         })
     }
     finally {
