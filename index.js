@@ -30,13 +30,32 @@ const run = async () => {
             const fruits = await cursor.toArray();
             res.send(fruits);
         })
-
+        app.get('/fruits/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await fruit.findOne(query);
+            res.send(result);
+        })
         app.post('/fruits', async (req, res) => {
             const newFruit = req.body;
             const result = await fruit.insertOne(newFruit);
             res.send(result);
             console.log(newFruit, 'added successfully');
         });
+        // updating user 
+        app.put('/fruits/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedUser = req.body;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: {
+                    updatedUser
+                }
+            };
+            const result = await fruit.updateOne(filter, updatedDoc, options);
+            res.send(result);
+        })
         //delete a fruitk
         app.delete('/fruits/:id', async (req, res) => {
             const id = req.params.id;
