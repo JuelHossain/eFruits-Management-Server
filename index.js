@@ -2,8 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = 5000;
-const { MongoClient, ServerApiVersion } = require("mongodb");
-
+const { MongoClient, ServerApiVersion, ObjectId} = require("mongodb");
 app.use(cors());
 app.use(express.json());
 
@@ -32,15 +31,22 @@ const run = async () => {
             res.send(fruits);
         })
 
-        app.post('/fruits', async(req, res) => {
+        app.post('/fruits', async (req, res) => {
             const newFruit = req.body;
             const result = await fruit.insertOne(newFruit);
             res.send(result);
-            console.log(newFruit.name,'added successfully');
+            console.log(newFruit, 'added successfully');
+        });
+        //delete a fruitk
+        app.delete('/fruits/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = {_id: ObjectId(id) };
+            const result = await fruit.deleteOne(query);
+            res.send(result);
         })
     }
     finally {
-        console.log('plaease add another one');
+        console.log('Everythin is fine add an item.');
     }
 }
 run().catch(console.log)
