@@ -45,16 +45,15 @@ const run = async () => {
         // updating user 
         app.put('/fruits/:id', async (req, res) => {
             const id = req.params.id;
-            const updatedUser = req.body;
+            const updatedFruit = req.body;
             const filter = { _id: ObjectId(id) };
             const options = { upsert: true };
             const updatedDoc = {
-                $set: {
-                    updatedUser
-                }
+                $set: updatedFruit
             };
             const result = await fruit.updateOne(filter, updatedDoc, options);
             res.send(result);
+            console.log(fruit,'updated')
         })
         //delete a fruitk
         app.delete('/fruits/:id', async (req, res) => {
@@ -62,6 +61,7 @@ const run = async () => {
             const query = {_id: ObjectId(id) };
             const result = await fruit.deleteOne(query);
             res.send(result);
+            console.log(fruit,'deleted')
         })
     }
     finally {
