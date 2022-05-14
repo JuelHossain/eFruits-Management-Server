@@ -10,4 +10,4 @@
 #### check the live server here.
 [https://efruits-management.herokuapp.com/]
 #### check the website live here 
-[efruitsmanager.web.app]
+[https://efruitsmanager.web.app/]
