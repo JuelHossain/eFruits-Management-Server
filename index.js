@@ -26,11 +26,24 @@ const run = async () => {
     const fruit = client.db("eFruits-Management").collection("fruits");
 
     app.get("/fruits", async (req, res) => {
+      const page = parseInt(req.query.page);
+      const size = parseInt(req.query.size);
       const query = {};
       const cursor = fruit.find(query);
-      const fruits = await cursor.toArray();
+      let fruits;
+      if (page || size) {
+        fruits = await cursor.skip(page*size).limit(size).toArray();
+      } else {
+      fruits = await cursor.toArray();
+      }
       res.send(fruits);
     });
+    app.get('/fruitsCount', async (req, res) => {
+      const query = {};
+      const cursor = fruit.find(query);
+      const count = await fruit.countDocuments();
+      res.send({ count });
+    })
     app.get("/fruits/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
@@ -54,7 +67,7 @@ const run = async () => {
       };
       const result = await fruit.updateOne(filter, updatedDoc, options);
       res.send(result);
-      console.log(fruit, "updated");
+      console.log(fruit.name, "updated");
     });
     //delete a fruitk
     app.delete("/fruits/:id", async (req, res) => {
