@@ -4,6 +4,7 @@ const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+const jwt = require('jsonwebtoken');
 app.use(cors());
 app.use(express.json());
 // cors are okey then what is the problem?
@@ -25,6 +26,15 @@ const run = async () => {
     await client.connect();
     const fruit = client.db("eFruits-Management").collection("fruits");
  
+    //auth
+    app.post('/login', async (req, res) => {
+      const user = req.body;
+      const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: '1d',
+      });
+      res.send({ accessToken });
+    });
+
     // getting all fruits 
     app.get("/fruits", async (req, res) => {
       const page = parseInt(req.query.page);
@@ -84,7 +94,7 @@ const run = async () => {
       console.log(fruit, "deleted");
     });
   } finally {
-    console.log("Everythin is fine.");
+    console.log("Everything is fine.");
   }
 };
 run().catch(console.log);
