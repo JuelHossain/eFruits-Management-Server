@@ -27,7 +27,7 @@ const run = async () => {
     const fruit = client.db("eFruits-Management").collection("fruits");
  
     //auth
-    app.post('/login', async (req, res) => {
+    app.post('/login',cors(), async (req, res) => {
       const user = req.body;
       const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: '1d',
