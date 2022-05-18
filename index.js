@@ -5,10 +5,26 @@ const app = express();
 const port = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const jwt = require('jsonwebtoken');
+const verify = require("jsonwebtoken/verify");
 app.use(cors());
 app.use(express.json());
-// cors are okey then what is the problem?
 
+// verifying jwt token 
+const verifyJwt = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).send({ message: 'unauthorized' });
+  }
+  const token = authHeader.split(' ')[1];
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).send({message:'forbidden'});
+    }
+    req.decoded = decoded;
+    next();
+  })
+  
+}
 // connecting database
 //-------------------------
 const uri =
@@ -27,7 +43,7 @@ const run = async () => {
     const fruit = client.db("eFruits-Management").collection("fruits");
  
     //auth
-    app.post('/login',cors(), async (req, res) => {
+    app.post('/login', async (req, res) => {
       const user = req.body;
       const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: '1d',
@@ -101,7 +117,7 @@ run().catch(console.log);
 
 // running the server
 //-------------------------------------
-app.get("/", (req, res) => {
+app.get("/",verifyJwt, (req, res) => {
   res.send(" Server is running");
 });
 
