@@ -17,9 +17,9 @@ app.use(express.json());
 (async () => {
   try {
     await client.connect();
-    app.use("fruits", fruitsRouter);
-    app.use("login", loginRouter);
-    app.get("fruitsCount", getFruitCount);
+    app.use("/fruits", fruitsRouter);
+    app.use("/login", loginRouter);
+    app.get("/fruitsCount", getFruitCount);
   } catch {
     console.log("There was some error");
   }
