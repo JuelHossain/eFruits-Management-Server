@@ -26,8 +26,7 @@ const verifyJwt = (req, res, next) => {
 };
 // connecting database
 //-------------------------
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.o2iwt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-const client = new MongoClient(uri, {
+const client = new MongoClient(process.env.URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   serverApi: ServerApiVersion.v1,
