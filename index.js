@@ -5,11 +5,11 @@ const cors = require("cors");
 
 const app = express();
 const port = process.env.PORT || 5000;
-const verifyJwt = require("../middlewares/verifyJwt");
-const client = require("../db/client");
-const fruitsRouter = require("../routers/fruitsRouter");
-const loginRouter = require("../routers/loginRouter");
-const { getFruitCount } = require("../controller/fruitsController");
+const verifyJwt = require("./middlewares/verifyJwt");
+const client = require("./db/client");
+const fruitsRouter = require("./routers/fruitsRouter");
+const loginRouter = require("./routers/loginRouter");
+const { getFruitCount } = require("./controller/fruitsController");
 
 app.use(cors());
 app.use(express.json());
@@ -17,15 +17,15 @@ app.use(express.json());
 (async () => {
   try {
     await client.connect();
-    app.use("/fruits", fruitsRouter);
-    app.use("/login", loginRouter);
-    app.get("/fruitsCount", getFruitCount);
+    app.use("/api/fruits", fruitsRouter);
+    app.use("/api/login", loginRouter);
+    app.get("/api/fruitsCount", getFruitCount);
   } catch {
     console.log("There was some error");
   }
 })();
 
-app.get("/", verifyJwt, (req, res) => {
+app.get("/api", verifyJwt, (req, res) => {
   res.send(" Server is running");
 });
 
