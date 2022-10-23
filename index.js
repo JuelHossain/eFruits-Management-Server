@@ -17,15 +17,15 @@ app.use(express.json());
 (async () => {
   try {
     await client.connect();
-    app.use("/api/fruits", fruitsRouter);
-    app.use("/api/login", loginRouter);
-    app.get("/api/fruitsCount", getFruitCount);
+    app.use("fruits", fruitsRouter);
+    app.use("login", loginRouter);
+    app.get("fruitsCount", getFruitCount);
   } catch {
     console.log("There was some error");
   }
 })();
 
-app.get("/api", verifyJwt, (req, res) => {
+app.get("/", verifyJwt, (req, res) => {
   res.send(" Server is running");
 });
 
