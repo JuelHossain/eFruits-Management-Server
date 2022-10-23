@@ -5,11 +5,11 @@ const cors = require("cors");
 
 const app = express();
 const port = process.env.PORT || 5000;
-const verifyJwt = require("./middlewares/verifyJwt");
-const client = require("./db/client");
-const fruitsRouter = require("./routers/fruitsRouter");
-const loginRouter = require("./routers/loginRouter");
-const { getFruitCount } = require("./controller/fruitsController");
+const verifyJwt = require("../middlewares/verifyJwt");
+const client = require("../db/client");
+const fruitsRouter = require("../routers/fruitsRouter");
+const loginRouter = require("../routers/loginRouter");
+const { getFruitCount } = require("../controller/fruitsController");
 
 app.use(cors());
 app.use(express.json());
