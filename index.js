@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 5000;
 const verifyJwt = require("./middlewares/verifyJwt");
 const client = require("./db/client");
 const fruitsRouter = require("./routers/fruitsRouter");
@@ -26,6 +26,7 @@ app.use(express.json());
 })();
 
 app.get("/", verifyJwt, (req, res) => {
+  
   res.send(" Server is running");
 });
 

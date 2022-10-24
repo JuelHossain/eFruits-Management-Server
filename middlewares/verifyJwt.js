@@ -1,18 +1,18 @@
 // verifying jwt token
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 
 const verifyJwt = (req, res, next) => {
-  const authHeader = req.headers.authorization
+  const authHeader = req.headers.authorization;
   if (!authHeader) {
-    return res.status(401).send({ message: "unauthorized" })
+    return res.status(401).send({ message: "unauthorized" });
   }
-  const token = authHeader.split(" ")[1]
+  const token = authHeader.split(" ")[1];
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
     if (err) {
-      return res.status(403).send({ message: "forbidden" })
+      return res.status(403).send({ message: "forbidden" });
     }
-    req.decoded = decoded
-    next()
-  })
-}
-module.exports = verifyJwt
+    req.decoded = decoded;
+    next();
+  });
+};
+module.exports = verifyJwt;
