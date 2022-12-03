@@ -6,7 +6,7 @@ const getAllFruits = async (req, res) => {
     const page = parseInt(req.query.page, 10);
     const size = parseInt(req.query.size, 10);
     const query = {};
-    const cursor = fruitCollection.find(query);
+    const cursor = await fruitCollection.find(query);
     let fruits;
     if (page || size) {
       fruits = await cursor

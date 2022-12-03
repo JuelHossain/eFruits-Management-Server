@@ -22,14 +22,13 @@ app.use(express.json());
     app.get("/fruitsCount", getFruitCount);
   } catch {
     console.log("There was some error");
+  } finally {
+    app.get("/", verifyJwt, (req, res) => {
+      res.send(" Server is running");
+    });
+
+    app.listen(port, () => {
+      console.log("server is running on", port);
+    });
   }
 })();
-
-app.get("/", verifyJwt, (req, res) => {
-  
-  res.send(" Server is running");
-});
-
-app.listen(port, () => {
-  console.log("server is running on", port);
-});
